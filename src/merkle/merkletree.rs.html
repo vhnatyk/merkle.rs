@@ -186,6 +186,16 @@
 <span id="186">186</span>
 <span id="187">187</span>
 <span id="188">188</span>
+<span id="189">189</span>
+<span id="190">190</span>
+<span id="191">191</span>
+<span id="192">192</span>
+<span id="193">193</span>
+<span id="194">194</span>
+<span id="195">195</span>
+<span id="196">196</span>
+<span id="197">197</span>
+<span id="198">198</span>
 </pre><pre class="rust ">
 <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">cmp</span>::<span class="ident">Ordering</span>;
 <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">hash</span>::{<span class="ident">Hash</span>, <span class="ident">Hasher</span>};
@@ -347,6 +357,16 @@
 
         <span class="ident">Lemma</span>::<span class="ident">new</span>(<span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">root</span>, <span class="ident">leaf_hash</span>.<span class="ident">as_ref</span>())
             .<span class="ident">map</span>(<span class="op">|</span><span class="ident">lemma</span><span class="op">|</span> <span class="ident">Proof</span>::<span class="ident">new</span>(<span class="self">self</span>.<span class="ident">algorithm</span>, <span class="ident">root_hash</span>, <span class="ident">lemma</span>, <span class="ident">value</span>))
+    }
+
+    <span class="doccomment">/// Generate an inclusion proof for the `n`-th leaf value.</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">gen_nth_proof</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">n</span>: <span class="ident">usize</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Proof</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;&gt;</span>
+    <span class="kw">where</span>
+        <span class="ident">T</span>: <span class="ident">Hashable</span> <span class="op">+</span> <span class="ident">Clone</span>,
+    {
+        <span class="kw">let</span> <span class="ident">root_hash</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">root_hash</span>().<span class="ident">clone</span>();
+        <span class="ident">Lemma</span>::<span class="ident">new_by_index</span>(<span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">root</span>, <span class="ident">n</span>, <span class="self">self</span>.<span class="ident">count</span>)
+            .<span class="ident">map</span>(<span class="op">|</span>(<span class="ident">lemma</span>, <span class="ident">value</span>)<span class="op">|</span> <span class="ident">Proof</span>::<span class="ident">new</span>(<span class="self">self</span>.<span class="ident">algorithm</span>, <span class="ident">root_hash</span>, <span class="ident">lemma</span>, <span class="ident">value</span>.<span class="ident">clone</span>()))
     }
 
     <span class="doccomment">/// Creates an `Iterator` over the values contained in this Merkle tree.</span>
