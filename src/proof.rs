@@ -8,17 +8,11 @@ use tree::Tree;
 
 /// An inclusion proof represent the fact that a `value` is a member
 /// of a `MerkleTree` with root hash `root_hash`, and hash function `algorithm`.
-#[cfg_attr(
-    feature = "serialization-serde",
-    derive(Serialize, Deserialize)
-)]
+#[cfg_attr(feature = "serialization-serde", derive(Serialize, Deserialize))]
 #[derive(Clone, Debug)]
 pub struct Proof<T> {
     /// The hashing algorithm used in the original `MerkleTree`
-    #[cfg_attr(
-        feature = "serialization-serde",
-        serde(with = "algorithm_serde")
-    )]
+    #[cfg_attr(feature = "serialization-serde", serde(with = "algorithm_serde"))]
     pub algorithm: &'static Algorithm,
 
     /// The hash of the root of the original `MerkleTree`
@@ -84,7 +78,8 @@ mod algorithm_serde {
                 serialize(alg, &mut serializer).expect(&format!("{:?}", alg));
                 let alg_ = deserialize(&mut serde_json::Deserializer::from_slice(
                     &serializer.into_inner()[..],
-                )).expect(&format!("{:?}", alg));
+                ))
+                .expect(&format!("{:?}", alg));
 
                 assert_eq!(*alg, alg_);
             }
@@ -168,10 +163,7 @@ impl<T> Proof<T> {
 /// A `Lemma` holds the hash of a node, the hash of its sibling node,
 /// and a sub lemma, whose `node_hash`, when combined with this `sibling_hash`
 /// must be equal to this `node_hash`.
-#[cfg_attr(
-    feature = "serialization-serde",
-    derive(Serialize, Deserialize)
-)]
+#[cfg_attr(feature = "serialization-serde", derive(Serialize, Deserialize))]
 #[derive(Clone, Debug, PartialEq, Eq, PartialOrd, Ord, Hash)]
 pub struct Lemma {
     pub node_hash: Vec<u8>,
@@ -327,10 +319,7 @@ impl Lemma {
 }
 
 /// Tags a value so that we know from which branch of a `Tree` (if any) it was found.
-#[cfg_attr(
-    feature = "serialization-serde",
-    derive(Serialize, Deserialize)
-)]
+#[cfg_attr(feature = "serialization-serde", derive(Serialize, Deserialize))]
 #[derive(Clone, Debug, PartialEq, Eq, PartialOrd, Ord, Hash)]
 pub enum Positioned<T> {
     /// The value was found in the left branch
