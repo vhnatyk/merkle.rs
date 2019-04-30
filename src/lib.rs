@@ -41,3 +41,10 @@ mod proto;
 
 #[cfg(test)]
 mod tests;
+
+#[cfg(test)]
+mod cryptoxide_tests;
+#[cfg(test)]
+extern crate cryptoxide;
+#[cfg(test)]
+extern crate curv;
